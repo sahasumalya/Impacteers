@@ -1,11 +1,27 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public void main() {
+
+
+    List<String> combinations = letterCombinations("4563");
+    combinations.forEach(System.out::println);
+   /*
+   board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+    */
+    //char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+    //String word = "DECC";
+    //System.out.println(exist(board, word));
+    //solvenQueens(16);
     //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
     // to see how IntelliJ IDEA suggests fixing it.
-    int[] arr = {73,74,75,71,69,72,76,73};
-    int[] res = dailyTemperatures(arr);
-    Arrays.stream(res).forEach((i)->System.out.println(i));
+    //int[] arr = {73,74,75,71,69,72,76,73};
+    //int[] res = dailyTemperatures(arr);
+    //
+    //int[] input = {2,3,6,7};
+    //combinationSum(input, 7);
+    //List<List<Integer>> res = subsets(input);
+    //int[] res = maxSlidingWindow(input, 3);
+    //Arrays.stream(res).forEach((i)->System.out.println(i));
     //MyLinkedList root = create(arr);
     //MyLinkedList reversedList = reverse(root);
     //displayLinkedList(reversedList);
@@ -14,6 +30,192 @@ public void main() {
     //int k = 6;
     //System.out.println(checkSubarraySum(arr, k));
 
+
+}
+
+public List<String> letterCombinations(String digits) {
+
+     Map<Character, List<Character>> characterListMap = new HashMap<>();
+     characterListMap.put('2', List.of('a','b','c'));
+    characterListMap.put('3', List.of('d','e','f'));
+    characterListMap.put('4', List.of('g','h','i'));
+    characterListMap.put('5', List.of('j','k','l'));
+    characterListMap.put('6', List.of('m','n','o'));
+    characterListMap.put('7', List.of('p','q','r','s'));
+    characterListMap.put('8', List.of('t','u','v'));
+    characterListMap.put('9', List.of('w','x','y','z'));
+
+    List<String> res = new ArrayList<>();
+    letterDfs(digits, characterListMap, 0, "", res);
+
+    return res;
+
+
+}
+
+public void letterDfs(String digits, Map<Character, List<Character>> characterListMap, int index, String combination, List<String> res){
+
+    if(index==digits.length()){
+        res.add(combination);
+        return;
+    }
+    char digit = digits.charAt(index);
+    List<Character> charList = characterListMap.get(digit);
+    for(int i=0;i<charList.size();i++){
+        letterDfs(digits, characterListMap, index+1, combination + charList.get(i), res);
+    }
+}
+
+public boolean exist(char[][] board, String word) {
+
+   boolean[][] processed = new boolean[board.length][board[0].length];
+   for(int i=0;i<board.length;i++){
+       for(int j=0;j<board[i].length;j++){
+           boolean res = wordDfs(board, word, i, j, 0, processed);
+           if(res){
+               return true;
+           }
+       }
+    }
+   return false;
+}
+
+public boolean wordDfs(char[][] board, String word, int x, int y, int index, boolean [][] processed){
+    processed[x][y] = true;
+    if(board[x][y] == word.charAt(index)){
+        if(index==word.length()-1){
+            processed[x][y] = false;
+            return true;
+        }
+        int rows = board.length;
+        int cols = board[0].length;
+        boolean cur = false;
+        if(x+1<rows && !processed[x+1][y]){
+            cur = wordDfs(board, word, x+1, y, index+1, processed);
+            if(cur){
+                processed[x][y] = false;
+                return true;
+            }
+        }
+        if(x-1>=0 && !processed[x-1][y]){
+            cur = wordDfs(board, word, x-1, y, index+1, processed);
+            if(cur){
+                processed[x][y] = false;
+                return true;
+            }
+        }
+        if(y+1<cols && !processed[x][y+1]){
+            cur = wordDfs(board, word, x, y+1, index+1, processed);
+            if(cur){
+                processed[x][y] = false;
+                return true;
+            }
+        }
+        if(y-1>=0 && !processed[x][y-1]){
+            cur = wordDfs(board, word, x, y-1, index+1, processed);
+            if(cur){
+                processed[x][y] = false;
+                return true;
+            }
+        }
+
+    }
+    processed[x][y] = false;
+    return false;
+
+}
+
+public char[][] solvenQueens(int n){
+
+    char[][] board = new char[n][n];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            board[i][j] = '.';
+        }
+    }
+
+    dfs(board, 0);
+
+    // print my solution
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            System.out.print(board[i][j]+ " ");
+        }
+        System.out.println();
+    }
+
+    return board;
+
+}
+
+public boolean isValidPosition(char[][] board, int x, int y){
+
+    int size = board.length;
+    for(int i=0;i<size;i++) {
+        if (board[x][i] == 'Q') {
+            return false;
+        }
+    }
+        for(int i=0;i<size;i++) {
+            if (board[i][y] == 'Q') {
+                return false;
+            }
+        }
+    int a = x, b = y;
+    while(a-1>=0 && b+1<size){
+        a--;
+        b++;
+        if(board[a][b]=='Q'){
+            return false;
+        }
+    }
+    a = x;
+    b = y;
+    while(a-1>=0 && b-1>=0){
+        a--;
+        b--;
+        if(board[a][b]=='Q'){
+            return false;
+        }
+    }
+    a = x;
+    b = y;
+    while(a+1<size && b-1>=0){
+        a++;
+        b--;
+        if(board[a][b]=='Q'){
+            return false;
+        }
+    }
+    a = x;
+    b = y;
+    while(a+1<size && b+1<size){
+        a++;
+        b++;
+        if(board[a][b]=='Q'){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+public boolean dfs(char[][] board, int column){
+
+    if(column==board.length){
+        return true;
+    }
+    for(int i=0;i<board.length;i++){
+        if(isValidPosition(board, i, column)){
+            board[i][column] = 'Q';
+            boolean cur = dfs(board, column+1);
+            if(cur){
+                return true;
+            }
+            board[i][column] = '.';
+        }
+    }
+    return false;
 
 }
 
@@ -55,6 +257,92 @@ public int[] dailyTemperatures(int[] temperatures) {
         stack.push(list);
     }
     return res;
+}
+
+public List<List<Integer>> subsets(int[] nums) {
+
+    List<List<Integer>> res = new ArrayList<>();
+    addSubsets(nums, 0, new ArrayList<>(), res);
+
+    return res;
+
+
+}
+
+public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    List<List<Integer>> res = new ArrayList<>();
+    solve(target, 0, candidates, res, new ArrayList<>());
+    return res;
+    /// 1 2 3
+
+
+}
+
+public void solve(int target, int index, int[] candidates, List<List<Integer>> res, List<Integer> combination){
+
+    if(target==0){
+        res.add(new ArrayList<>(combination));
+        return;
+    }
+    if(index==candidates.length){
+        return;
+    }
+    if(candidates[index] <= target){
+        combination.add(candidates[index]);
+        solve(target- candidates[index], index, candidates, res, combination);
+        combination.removeLast();
+    }
+
+    solve(target, index+1, candidates, res, combination);
+}
+
+public void addSubsets(int[] nums, int index, List<Integer> subset, List<List<Integer>> res){
+
+    if(index==nums.length){
+        res.add(new ArrayList<>(subset));
+        return;
+    }
+
+    subset.add(nums[index]);
+    // considering
+    addSubsets(nums, index+1, subset, res);
+
+    // not considering
+    subset.removeLast();
+    addSubsets(nums, index+1, subset, res);
+    return;
+
+}
+
+public int[] maxSlidingWindow(int[] nums, int k) {
+    // n elements , k -->
+    // 1 2 3 4 --> 4, 3, 2 --> n - k + 1
+    // 0 1 2 3
+    int[] res = new int[nums.length - k + 1];
+    int resIndex = 0;
+    Deque<Integer> deque = new LinkedList<>();
+    //
+    for(int i=0;i<nums.length;i++){
+        int curNum = nums[i];
+        while(deque.size()>0 && nums[deque.peekLast()] <= curNum){
+            deque.pollLast();
+        }
+        deque.add(i);
+        // 1 2 3 4 5
+        // 0 1 2 3 4
+        if(i>=k-1){
+            while(deque.size()> 0 && deque.peekFirst() <= i-k){
+                // 02 1  3 4 5
+                // 1  ---> 5 --> 3
+                deque.pollLast();
+            }
+            res[resIndex] = nums[deque.peekFirst()];
+            resIndex++;
+        }
+    }
+    return res;
+
+
 }
 
 

@@ -1,0 +1,106 @@
+In an object-oriented system, you have a class with several overloaded methods that
+each perform a specific operation on an integer value. Each method increases
+ or decreases the value by a fixed amount. Given a list of available operations (as integers,
+ which can be positive or negative) and an initial integer start, determine the minimum number
+ of method calls (operations) needed to reach exactly the target value end from start.
+ You may apply each operation as many times as you want (including zero).
+
+If it is not possible to reach the target value exactly, return -1.
+
+Sample Explanation:
+If start = 2, end = 9, and operations = [2, 3]:
+
+// 9-2 = 7
+// 7 rupees,  [2,3]
+// 7 --> 2 + 2 + 3
+// 7 --> 2 + 3 + 3
+// 7 --> func(target, index)--> func(7, 0)
+               ---> 1+ func(5,0)  , 0 +
+
+
+               1+func(5,0)
+               func(7,1)
+
+You can do: 2 + 3 + 2 + 2 = 9 (using operations [3, 2, 2]) in 3 steps. This is the minimum possible.
+
+
+
+Input Format
+
+The input consists of:
+
+n: An integer denoting the number of available operations (1 ≤ n ≤ 10).
+operations: n space-separated integers, each representing an available operation (−104 ≤ op ≤ 104, op ≠ 0).
+start: An integer representing the starting value (−105 ≤ s
+You are given logs from a distributed system, where each log entry is an event ID (an integer). Due to the large volume of logs, analyzing the most common patterns is critical for performance tuning.
+
+Given a sequence of n event IDs and a window size k, find the contiguous subsequence (of length k) that appears most frequently in the log. If there are multiple such subsequences, return the lexicographically smallest one (compare as arrays).
+
+Output the most frequent subsequence as space-separated integers on a single line.
+
+Sample Explanation:
+If the event log is 4 2 1 2 4 2 1 with k=3:
+The possible 3-length windows are:
+[4 2 1], [2 1 2], [1 2 4], [2 4 2], [4 2 1].
+[4 2 1] appears twice, all others appear once. So output "4 2 1".
+
+Input Format
+
+The input consists of:
+
+n: An integer, the number of log entries (0 ≤ n ≤ 105).
+k: An integer, the window size (1 ≤ k ≤ n).
+events: n space-separated integers, the log entries (0 ≤ event ID ≤ 109).
+Output Format
+
+Print the most frequent subsequence of size k as space-s
+
+
+
+
+You are given logs from a distributed system, where each log entry is an event ID (an integer). Due to the large volume of logs, analyzing the most common patterns is critical for performance tuning.
+
+Given a sequence of n event IDs and a window size k, find the contiguous subsequence (of length k) that appears most frequently in the log. If there are multiple such subsequences, return the lexicographically smallest one (compare as arrays).
+
+Output the most frequent subsequence as space-separated integers on a single line.
+
+Sample Explanation:
+If the event log is 4 2 1 2 4 2 1 with k=3:
+The possible 3-length windows are:
+[4 2 1], [2 1 2], [1 2 4], [2 4 2], [4 2 1].
+[4 2 1] appears twice, all others appear once. So output "4 2 1".
+
+4 2 1 2 4 2 1
+4 2 1 --> (4,2,1) -> 1
+
+  front <- 2 1 2--> back
+
+
+
+Input Format
+
+The input consists of:
+
+n: An integer, the number of log entries (0 ≤ n ≤ 105).
+k: An integer, the window size (1 ≤ k ≤ n).
+events: n space-separated integers, the log entries (0 ≤ event ID ≤ 109).
+Output Format
+
+Print the most frequent subsequence of size k as space-s
+
+
+[-1,0,1,2,-1,-4]
+triplets --> sum = 0
+a,b,c--> a!=b!=c   -> a+b+c = x  --> c --> a+b = x-c
+a>b>c
+
+a+b+c = 0          ->  0 --> 0-(-1) = 1  --> 0-0 == 0 ->    0 - 1 = -1
+-4 -1 -1 0 1 2
+
+        R
+-4 -1 -1 0
+
+
+
+
+
