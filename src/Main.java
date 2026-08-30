@@ -1,10 +1,45 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+class EmployeeComparator implements Comparator<Employee>{
+
+    @Override
+    public int compare(Employee employee1, Employee employee2) {
+
+       if(employee1.age == employee2.age){
+           return employee1.name.compareTo(employee2.name);
+       }
+
+        if(employee1.age > employee2.age){
+            return 1;
+        }
+
+        return -1;
+    }
+}
+
 public void main() {
 
+    Employee employee1 = new Employee("tarun",30);
+    Employee employee2 = new Employee("rohit", 32);
+    Employee employee3 = new Employee("rana", 24);
 
-    List<String> combinations = letterCombinations("4563");
-    combinations.forEach(System.out::println);
+    Employee employee4 = new Employee("alia", 26);
+
+    Employee employee5 = new Employee("bhanu", 26);
+
+
+    ArrayList<Employee> employeeList = new ArrayList<>();
+    employeeList.addAll(List.of(employee1, employee2, employee3, employee4, employee5));
+
+    Collections.sort(employeeList);
+    employeeList.forEach(e-> System.out.println(e.name + "---" + e.age));
+    // int arr[] = {10,7,5,6,9,3,2,1};
+    // int res[] = mergeSort(arr, 0, arr.length-1);
+    /* for(int i=0;i<res.length;i++){
+         System.out.println(res[i]);
+     }*/
+    //List<String> combinations = letterCombinations("4563");
+    //combinations.forEach(System.out::println);
    /*
    board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
     */
@@ -31,6 +66,80 @@ public void main() {
     //System.out.println(checkSubarraySum(arr, k));
 
 
+}
+
+public void quicksort(int[] arr, int start, int end){
+
+    if(start==end || start>end){
+        return;
+    }
+    int pivot = arr[start];
+    int low = start;
+    int curPos = start;
+    for(int i=start+1;i<end;i++){
+        if(arr[i]==pivot){
+            curPos = i;
+        }
+        if(arr[i]<pivot){
+            if(arr[low]==curPos){
+                curPos = i;
+            }
+            int temp = arr[i];
+            arr[i] = arr[low];
+            arr[low] = temp;
+            low++;
+        }
+
+    }
+    if(curPos != low){
+        int temp = arr[low];
+        arr[low] = pivot;
+        arr[curPos] = temp;
+    }
+    quicksort(arr, start, low-1);
+    quicksort(arr, low+1, end);
+
+}
+
+public int[] merge(int[] left, int[] right){
+    int[] res = new int[left.length+right.length];
+    int l = 0, r = 0;
+    int index = 0;
+    while(l<left.length && r<right.length){
+        if(left[l]<=right[r]){
+            res[index] = left[l];
+            l++;
+        } else {
+            res[index] = right[r];
+            r++;
+        }
+        index++;
+    }
+
+    while(l<left.length){
+        res[index] = left[l];
+        l++;
+        index++;
+    }
+
+    while(r<right.length){
+        res[index] = right[r];
+        r++;
+        index++;
+    }
+
+    return res;
+}
+public int[] mergeSort(int[] arr, int start, int end){
+
+    if(start==end){
+        int[] res = {arr[start]};
+        return res;
+    }
+    int mid = (start + end)/2;
+    int[] left = mergeSort(arr, start, mid);
+    int[] right = mergeSort(arr, mid+1, end);
+    return merge(left, right);
 }
 
 public List<String> letterCombinations(String digits) {
