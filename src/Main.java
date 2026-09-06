@@ -130,7 +130,84 @@ public int findPeakElement(int[] nums) {
     return -1;
 }
 
+public int findContentChildren(int[] g, int[] s) {
+    Arrays.sort(g);
+    Arrays.sort(s);
+    int res = 0;
+    int children = 0;
+    int cookie = 0;
+    while(children<g.length && cookie<s.length){
+        if(g[children]<=s[cookie]){
+            res++;
+            children++;
+            cookie++;
+        } else {
+            cookie++;
+        }
+    }
+    return res;
+}
+public int minEatingSpeed(int[] piles, int h) {
+    int maxSpeed = piles[0];
+    for(int i=1;i<piles.length;i++){
+        maxSpeed = Math.max(maxSpeed, piles[i]);
+    }
+    int res = maxSpeed;
+    int minSpeed = 1;
+    while(minSpeed<=maxSpeed){
+        int mid = (minSpeed+maxSpeed)/2;
+        if(isPossible(piles, mid, h)){
+            //System.out.println(mid+"##"+res);
+            res = Math.min(res, mid);
+            maxSpeed = mid-1;
+        } else {
+            minSpeed = mid+1;
+        }
 
+    }
+    return res;
+}
+// 1879048192 1000000000
+public boolean isPossible(int[] piles, int rate, int h){
+    long duration = 0;
+    for(int i=0;i<piles.length;i++){
+        duration = (long)duration + (piles[i]/rate);
+        if(piles[i]%rate!=0){
+            duration++;
+        }
+    }
+    //System.out.println(rate+"--"+duration);
+    return duration<=h;
+}
+public int jump(int[] nums) {
+    Queue<Integer> queue = new LinkedList<>();
+    queue.add(0);
+    boolean visited[] = new boolean[nums.length];
+    visited[0] = true;
+    int steps = 0;
+    while(queue.size()>0){
+        int len = queue.size();
+        while(len>0){
+            int cur = queue.poll();
+            if(cur==nums.length-1){
+                return steps;
+            }
+            for(int i=1;i<=nums[cur];i++){
+                int newStep = cur + i;
+                if(newStep>=nums.length){
+                    break;
+                }
+                if(!visited[newStep]){
+                    visited[newStep] = true;
+                    queue.add(newStep);
+                }
+            }
+            len--;
+        }
+        steps++;
+    }
+    return steps;
+}
 public int searchRotateArray(int[] nums, int target) {
     int start = 0;
     int end = nums.length-1;
