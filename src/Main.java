@@ -16,6 +16,65 @@ class EmployeeComparator implements Comparator<Employee>{
         return -1;
     }
 }
+public class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode() {}
+      TreeNode(int val) { this.val = val; }
+      TreeNode(int val, TreeNode left, TreeNode right) {
+          this.val = val;
+          this.left = left;
+          this.right = right;
+      }
+  }
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> hmap = new HashMap<>();
+        for(int i=0;i<preorder.length;i++){
+            hmap.put(preorder[i], i);
+        }
+        return dfs(inorder, 0, inorder.length-1, hmap);
+
+    }
+
+    public TreeNode dfs(int[] inorder, int start, int end, Map<Integer, Integer> hmap){
+        if(start==end){
+            return new  TreeNode(inorder[start]);
+        }
+        int minPos = hmap.get(inorder[start]);
+        int minIndex = start;
+        for(int i=start+1;i<=end;i++){
+            if(minPos>hmap.get(inorder[i])){
+                minPos = hmap.get(inorder[i]);
+                minIndex = i;
+            }
+        }
+        TreeNode root = new TreeNode(inorder[minIndex]);
+        if(minIndex>start){
+            root.left = dfs(inorder, start, minIndex-1, hmap);
+        }
+        if(minIndex<end){
+            root.right = dfs(inorder, minIndex+1, end, hmap);
+        }
+        return root;
+    }
+
 
 public int[] searchRange(int[] nums, int target) {
 
@@ -236,9 +295,15 @@ public int searchRotateArray(int[] nums, int target) {
     return -1;
 }
 
+
+
 public void main() {
 
-    Employee employee1 = new Employee("tarun",30);
+    int[] inorder = {9,3,15,20,7};
+    int[] preorder = {3,9,20,15,7};
+    TreeNode tree = buildTree(preorder, inorder);
+    System.out.println("success");
+    /*Employee employee1 = new Employee("tarun",30);
     Employee employee2 = new Employee("rohit", 32);
     Employee employee3 = new Employee("rana", 24);
 
@@ -251,7 +316,7 @@ public void main() {
     employeeList.addAll(List.of(employee1, employee2, employee3, employee4, employee5));
 
     Collections.sort(employeeList);
-    employeeList.forEach(e-> System.out.println(e.name + "---" + e.age));
+    employeeList.forEach(e-> System.out.println(e.name + "---" + e.age));*/
     // int arr[] = {10,7,5,6,9,3,2,1};
     // int res[] = mergeSort(arr, 0, arr.length-1);
     /* for(int i=0;i<res.length;i++){
