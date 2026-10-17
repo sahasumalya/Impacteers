@@ -13,7 +13,7 @@ class KthLargestElement {
     PriorityQueue<Integer> pq;
     int queueSize;
     public KthLargestElement(int k, int[] nums) {
-        pq = new PriorityQueue<>(new PQComparator());
+        pq = new PriorityQueue<>(new PQComparator2());
         queueSize = k;
         for(int i=0;i<nums.length;i++){
             add(nums[i]);
