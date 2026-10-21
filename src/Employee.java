@@ -1,10 +1,12 @@
 public class Employee implements Comparable<Employee>{
     int age;
     String name;
+    int salary;
 
-    public Employee(String name, int age) {
+    public Employee(String name, int age, int salary) {
         this.name = name;
         this.age = age;
+        this.salary = salary;
     }
 
 

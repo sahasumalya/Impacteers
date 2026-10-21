@@ -299,10 +299,10 @@ public int searchRotateArray(int[] nums, int target) {
 
 public void main() {
 
-    int[] inorder = {9,3,15,20,7};
-    int[] preorder = {3,9,20,15,7};
-    TreeNode tree = buildTree(preorder, inorder);
-    System.out.println("success");
+    //int[] inorder = {9,3,15,20,7};
+    //int[] preorder = {3,9,20,15,7};
+    //TreeNode tree = buildTree(preorder, inorder);
+    //System.out.println("success");
     /*Employee employee1 = new Employee("tarun",30);
     Employee employee2 = new Employee("rohit", 32);
     Employee employee3 = new Employee("rana", 24);
@@ -348,6 +348,14 @@ public void main() {
 
     //int k = 6;
     //System.out.println(checkSubarraySum(arr, k));
+
+    /*List<Employee> employees = new ArrayList<>();
+    employees.add(new Employee("sfvds",30, 30000));
+    employees.add(new Employee("sfvde",31, 20000));
+    employees.add(new Employee("sfvdf",32, 40000));
+
+    List<String> emoployeesWithMorethan30ksalary = employees.stream().filter((e)-> e.salary > 30000).map(e->e.name).toList();
+    System.out.println(emoployeesWithMorethan30ksalary);*/
 
 
 }
